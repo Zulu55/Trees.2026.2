@@ -89,4 +89,57 @@ public class BinarySearchTree<T> where T : IComparable<T>
         return node;
     }
 
+    public static void Remove(T value)
+    {
+        Root = Remove(Root, value);
+    }
+
+    public static BinaryNode<T>? Remove(BinaryNode<T>? node, T value)
+    {
+        if (node == null) return null; // Value not found: nothing changes.
+
+        int comparison = value.CompareTo(node.Value);
+
+        if (comparison < 0)
+        {
+            node.Left = Remove(node.Left, value);
+            return node;
+        }
+        if (comparison > 0)
+        {
+            node.Right = Remove(node.Right, value);
+            return node;
+        }
+
+        // Found the node to remove.
+        Count--;
+
+        // Case 1: no children -> simply disappear.
+        if (node.Left == null && node.Right == null) return null;
+
+        // Case 2: one child -> the child takes our place.
+        if (node.Left == null) return node.Right;
+        if (node.Right == null) return node.Left;
+
+        // Case 3: two children -> replace our value with the in-order successor
+        // (the smallest value of the right subtree) and remove that successor.
+        var successor = MinNode(node.Right);
+        node.Value = successor.Value;
+        Count++; // The recursive call below will decrement it again.
+        node.Right = Remove(node.Right, successor.Value!);
+        return node;
+    }
+
+    /// <summary>In-order traversal of a BST yields the values in ascending order.</summary>
+    public IEnumerable<T> InOrder() => InOrder(Root);
+
+    private static IEnumerable<T> InOrder(BinaryNode<T>? node)
+    {
+        if (node == null) yield break;
+        foreach (T value in InOrder(node.Left)) yield return value;
+        yield return node.Value!;
+        foreach (T value in InOrder(node.Right)) yield return value;
+    }
+
+    public int Height() => BinaryTreeOps.Height(Root);
 }

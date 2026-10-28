@@ -66,6 +66,18 @@ do
         case "9":
             Console.WriteLine($"Max value => {BinarySearchTree<int>.Max(root)}");
             break;
+        case "10":
+            Console.Write("Enter new value to remove: ");
+            if (int.TryParse(Console.ReadLine(), out int valueToRemove))
+            {
+                BinarySearchTree<int>.Remove(root, valueToRemove);
+                Console.WriteLine("New value removed!");
+            }
+            else
+            {
+                Console.WriteLine("Invalid number.");
+            }
+            break;
         default:
             Console.WriteLine("Invalid option.");
             break;
@@ -75,16 +87,17 @@ do
 
 string MenuOptions()
 {
-    Console.WriteLine("1. Show pre-order");
-    Console.WriteLine("2. Show in-order");
-    Console.WriteLine("3. Show post-order");
-    Console.WriteLine("4. Show level-order");
-    Console.WriteLine("5. Show sideways");
-    Console.WriteLine("6. Insert new value");
-    Console.WriteLine("7. Search value");
-    Console.WriteLine("8. Min value");
-    Console.WriteLine("9. Max value");
-    Console.WriteLine("0. Exit");
+    Console.WriteLine(" 0. Exit");
+    Console.WriteLine(" 1. Show pre-order");
+    Console.WriteLine(" 2. Show in-order");
+    Console.WriteLine(" 3. Show post-order");
+    Console.WriteLine(" 4. Show level-order");
+    Console.WriteLine(" 5. Show sideways");
+    Console.WriteLine(" 6. Insert new value");
+    Console.WriteLine(" 7. Search value");
+    Console.WriteLine(" 8. Min value");
+    Console.WriteLine(" 9. Max value");
+    Console.WriteLine("10. Remove value");
     Console.Write("Your option is? ");
     return Console.ReadLine()!;
 }
