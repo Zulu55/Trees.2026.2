@@ -1,6 +1,6 @@
 ﻿using Backend;
 
-var root = BinaryTreeFile.Load("tree.txt");
+var root = BinaryTreeFile.Load("tree.txt", int.Parse);
 var option = string.Empty;
 
 do
@@ -37,9 +37,34 @@ do
             Console.WriteLine();
             break;
         case "6":
-            Console.WriteLine("Enter new value to insert: ");
-            BinarySearchTree<string>.Insert(root, Console.ReadLine()!);
-            Console.WriteLine("New value inserted!");
+            Console.Write("Enter new value to insert: ");
+            if (int.TryParse(Console.ReadLine(), out int valueToInsert))
+            {
+                BinarySearchTree<int>.Insert(root, valueToInsert);
+                Console.WriteLine("New value inserted!");
+            }
+            else
+            {
+                Console.WriteLine("Invalid number.");
+            }
+            break;
+        case "7":
+            Console.Write("Enter new value to search: ");
+            if (int.TryParse(Console.ReadLine(), out int valueToSearch))
+            {
+                var exists = BinarySearchTree<int>.Contains(root, valueToSearch);
+                Console.WriteLine(exists ? "Value exists!" : "Value not exists!");
+            }
+            else
+            {
+                Console.WriteLine("Invalid number.");
+            }
+            break;
+        case "8":
+            Console.WriteLine($"Min value => {BinarySearchTree<int>.Min(root)}");
+            break;
+        case "9":
+            Console.WriteLine($"Max value => {BinarySearchTree<int>.Max(root)}");
             break;
         default:
             Console.WriteLine("Invalid option.");
@@ -56,6 +81,9 @@ string MenuOptions()
     Console.WriteLine("4. Show level-order");
     Console.WriteLine("5. Show sideways");
     Console.WriteLine("6. Insert new value");
+    Console.WriteLine("7. Search value");
+    Console.WriteLine("8. Min value");
+    Console.WriteLine("9. Max value");
     Console.WriteLine("0. Exit");
     Console.Write("Your option is? ");
     return Console.ReadLine()!;

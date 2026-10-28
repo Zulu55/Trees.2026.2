@@ -35,4 +35,58 @@ public class BinarySearchTree<T> where T : IComparable<T>
 
         return node;
     }
+
+    public static bool Contains(BinaryNode<T> root, T value)
+    {
+        Root = root;
+        return Contains(value);
+    }
+
+    /// <summary>Iterative search: at each node we discard half of the remaining tree.</summary>
+    public static bool Contains(T value)
+    {
+        var current = Root;
+
+        while (current != null)
+        {
+            int comparison = value.CompareTo(current.Value);
+            if (comparison == 0) return true;
+            current = comparison < 0 ? current.Left : current.Right;
+        }
+
+        return false;
+    }
+
+    public static T Min(BinaryNode<T> root)
+    {
+        Root = root;
+        return Min();
+    }
+
+    public static T Min()
+    {
+        if (Root == null) throw new InvalidOperationException("The tree is empty.");
+        return MinNode(Root).Value!;
+    }
+
+    public static T Max(BinaryNode<T> root)
+    {
+        Root = root;
+        return Max();
+    }
+
+    public static T Max()
+    {
+        if (Root == null) throw new InvalidOperationException("The tree is empty.");
+        var current = Root;
+        while (current.Right != null) current = current.Right; // Keep going right.
+        return current.Value!;
+    }
+
+    private static BinaryNode<T> MinNode(BinaryNode<T> node)
+    {
+        while (node.Left != null) node = node.Left; // Keep going left.
+        return node;
+    }
+
 }
