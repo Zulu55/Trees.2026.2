@@ -1,6 +1,6 @@
 ﻿using Backend;
-
-var root = BinaryTreeFile.Load("C:\\Tmp\\tree2.txt");
+var path = "C:\\Tmp\\tree2.txt";
+var root = BinaryTreeFile.Load(path, int.Parse);
 var option = string.Empty;
 
 do
@@ -40,8 +40,38 @@ do
             Console.Write("Enter new value to insert: ");
             if (int.TryParse(Console.ReadLine(), out int valueToInsert))
             {
-                BinarySearchTree<int>.Insert(root, valueToInsert);
+                root = BinarySearchTree<int>.Insert(root!, valueToInsert);
                 Console.WriteLine("New value inserted!");
+            }
+            else
+            {
+                Console.WriteLine("Invalid number.");
+            }
+            Console.WriteLine();
+            break;
+        case "7":
+            Console.Write("Enter number of values to insert: ");
+            if (int.TryParse(Console.ReadLine(), out int n))
+            {
+                var random = new Random();
+                for (int i = 0; i < n; i++)
+                {
+                    root = BinarySearchTree<int>.Insert(root!, random.Next(-100000, 100000));
+                }
+                Console.WriteLine($"New {n} values inserted!");
+            }
+            else
+            {
+                Console.WriteLine("Invalid number.");
+            }
+            Console.WriteLine();
+            break;
+        case "8":
+            Console.Write("Enter new value to search: ");
+            if (int.TryParse(Console.ReadLine(), out int valueToSearch))
+            {
+                var exists = BinarySearchTree<int>.Contains(root!, valueToSearch);
+                Console.WriteLine(exists ? "Value exists." : "Value not exists.");
             }
             else
             {
@@ -56,7 +86,7 @@ do
 } while (option != "0");
 
 Console.WriteLine("Saving changes...");
-BinaryTreeFile.Save(root, "tree2.txt");
+BinaryTreeFile.Save(root!, path);
 
 string MenuTree()
 {
@@ -67,6 +97,8 @@ string MenuTree()
     Console.WriteLine(" 4. Show Level Order");
     Console.WriteLine(" 5. Show Sideways");
     Console.WriteLine(" 6. Insert new value");
+    Console.WriteLine(" 7. Insert N values randomly");
+    Console.WriteLine(" 8. Search a value");
     Console.Write("Your option is? ");
     return Console.ReadLine()!;
 }
