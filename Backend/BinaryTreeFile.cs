@@ -10,7 +10,7 @@ public static class BinaryTreeFile
     /// The first node line is the root. Blank lines and lines starting with '#' are ignored.
     /// A child that has no line of its own becomes a leaf.
     /// </summary>
-    public static BinaryNode<T> Load<T>(string path, Func<string, T> parse, char separator = ',')
+    public static BinaryNode<T>? Load<T>(string path, Func<string, T> parse, char separator = ',')
     {
         var nodes = new Dictionary<string, BinaryNode<T>>();
         var links = new List<(string Parent, string? Left, string? Right)>();
@@ -41,7 +41,7 @@ public static class BinaryTreeFile
 
         if (rootKey == null)
         {
-            throw new FormatException("The file contains no node lines.");
+            return null;
         }
 
         // Pass 2: connect parents to children (creating missing leaves on the fly).
